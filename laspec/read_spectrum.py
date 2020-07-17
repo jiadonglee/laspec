@@ -96,7 +96,7 @@ def read_spectrum(filepath, filesource='auto'):
         input file path
 
     filesource: string
-        {'sdss_dr12' / 'lamost_dr2' / 'lamost_dr3'}
+        {'sdss_dr12' / 'lamost_dr2' / 'lamost_dr3' / 'lamost_dr6'}
 
     Returns
     -------
@@ -149,6 +149,8 @@ def read_spectrum(filepath, filesource='auto'):
     # LAMOST DR2/DR3 spectrum
     if filesource == 'lamost_dr3' or filesource == 'lamost_dr2' or filesource == 'lamost_dr1':
         data = fits.open(filepath)
+        head = data[0].header
+        obsid = head['OBSID']
         specdata = Table(data[0].data.T)
         flux = Column(name='flux', data=specdata['col0'])
         ivar = Column(name='ivar', data=specdata['col1'])
