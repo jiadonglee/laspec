@@ -152,16 +152,23 @@ def read_spectrum(filepath, filesource='auto'):
         head = data[0].header
         obsid = head['OBSID']
         specdata = Table(data[0].data.T)
-        flux = Column(name='flux', data=specdata['col0'])
-        ivar = Column(name='ivar', data=specdata['col1'])
-        flux_err = Column(name='flux_err', data=(specdata['col1']) ** -0.5)
-        wave = Column(name='wave', data=specdata['col2'])
-        and_mask = Column(name='and_mask', data=specdata['col3'])
-        or_mask = Column(name='or_mask', data=specdata['col4'])
+        # flux = Column(name='flux', data=specdata['col0'])
+        # ivar = Column(name='ivar', data=specdata['col1'])
+        # flux_err = Column(name='flux_err', data=(specdata['col1']) ** -0.5)
+        # wave = Column(name='wave', data=specdata['col2'])
+        # and_mask = Column(name='and_mask', data=specdata['col3'])
+        # or_mask = Column(name='or_mask', data=specdata['col4'])
         # for flux_err, convert inf to nan
-        flux_err[np.isinf(flux_err.data)] = np.nan
-        return Table([wave, flux, flux_err, ivar, and_mask, or_mask])
-
+        # flux_err = specdata['col1'] ** -0.5
+        # flux_err[np.isinf(flux_err)] = np.nan
+        # return Table([wave, flux, flux_err, ivar, and_mask, or_mask])
+        return {'wave':specdata['col2'], 
+                'flux':specdata['col0'],
+                # 'flux_err':flux_err, 
+                'ivar':specdata['col1'], 
+                'and_mask':specdata['col3'], 
+                'or_mask':specdata['col4'], 
+                'obsid':obsid}
     return None
 
 

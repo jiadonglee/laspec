@@ -19,6 +19,7 @@ Aims
 
 """
 import os
+import numpy as np
 from astropy.io import fits
 from .read_spectrum import read_spectrum
 
@@ -38,8 +39,24 @@ class groupSpec():
 
     def __getitem__(self, idx):
         spec_name = os.path.join(self.root_dir, self.spec_names[idx])
-        t_spec = read_spectrum(spec_name, filesource='lamost_dr3')
-        return t_spec
+        self.spec = read_spectrum(spec_name, filesource='lamost_dr3')
+        return self.spec
+
+    def obsid2spec(self, obsid_group, obsid):
+        obsids = []
+        # for i, spec_name in enumerate(self.spec_names):
+        #     spec_name = os.path.join(self.root_dir, self.spec_names[i])
+        #     self.spec = read_spectrum(spec_name, filesource='lamost_dr3')
+        #     obsids += [self.spec['obsid']]
+        # obsids = np.array(obsids)
+        idx = np.argwhere(obsid_group == obsid)
+        if len(idx)== 1:
+            idx = np.asscalar(idx)
+        else: 
+            return None
+        spec_name = os.path.join(self.root_dir, self.spec_names[idx])
+        self.spec = read_spectrum(spec_name, filesource='lamost_dr3')
+        return self.spec
 
 def _test_read_spectrum():
     fp = '/share/data/jdli/preMS/'
