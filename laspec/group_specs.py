@@ -55,15 +55,16 @@ class groupSpec():
         else: 
             return None
         spec_name = os.path.join(self.root_dir, self.spec_names[idx])
-        self.spec = read_spectrum(spec_name, filesource='lamost_dr3')
+        self.spec = read_spectrum(spec_name, 
+                                  filesource='lamost_dr3')
         return self.spec
 
 def _test_read_spectrum():
     fp = '/share/data/jdli/preMS/'
     print(fp)
     GroupSpec = groupSpec(fp)
-    print(GroupSpec[1000])
-    return GroupSpec[1000]
+    # print(GroupSpec[1000])
+    # return GroupSpec[1000]
 
 if __name__ == "__main__":
     _test_read_spectrum()
